@@ -8,12 +8,22 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.view.View;
 
+import android.util.Log;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button yourButton = (Button) findViewById(R.id.bt_to_screen_gas);
+
+        yourButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), GotgasActivity.class));
+            }
+        });
     }
 
     @Override
@@ -38,12 +48,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    Button yourButton = (Button) findViewById(R.id.bt_to_screen_gas);
 
-    yourButton.setOnClickListener(new OnClickListener(){
-        public void onClick(View view){
-            startActivity(new Intent(this, GotGasActivity.class));
-        }
-    });
 }
 

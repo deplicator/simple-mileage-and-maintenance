@@ -6,4 +6,7 @@
     <string name="to_screen_maint">Did Maintenance</string>
     <string name="to_screen_repair">
         Repair</string>
+    <string name="title_activity_gotgas">GotgasActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
