@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Simple Mileage and Maintenance</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="to_screen_gas">Got Gas</string>
+    <string name="to_screen_maint">Did Maintenance</string>
+    <string name="to_screen_repair">
+        Repair</string>
+</resources>
