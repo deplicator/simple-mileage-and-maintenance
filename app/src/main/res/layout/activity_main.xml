@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/to_screen_gas"
-        android:id="@+id/bt_to_screen_gas"
+        android:id="@+id/gas_enterinfo_btn"
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/bt_to_screen_maint"
         android:layout_alignStart="@+id/bt_to_screen_maint"
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:text="@string/to_screen_maint"
         android:id="@+id/bt_to_screen_maint"
-        android:layout_below="@+id/bt_to_screen_gas"
+        android:layout_below="@+id/gas_enterinfo_btn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp" />
 

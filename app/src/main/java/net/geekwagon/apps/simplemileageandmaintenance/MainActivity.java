@@ -8,8 +8,6 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.view.View;
 
-import android.util.Log;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -17,11 +15,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button yourButton = (Button) findViewById(R.id.bt_to_screen_gas);
+        Button yourButton = (Button) findViewById(R.id.gas_enterinfo_btn);
 
         yourButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), GotgasActivity.class));
+                startActivity(new Intent(view.getContext(), EnterGasActivity.class));
             }
         });
     }

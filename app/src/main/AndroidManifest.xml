@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GotgasActivity"
+            android:name=".EnterGasActivity"
             android:label="@string/title_activity_gotgas" >
         </activity>
     </application>
