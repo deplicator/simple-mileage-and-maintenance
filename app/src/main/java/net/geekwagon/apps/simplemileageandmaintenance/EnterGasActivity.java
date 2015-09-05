@@ -1,6 +1,8 @@
 package net.geekwagon.apps.simplemileageandmaintenance;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +30,8 @@ public class EnterGasActivity extends AppCompatActivity {
         yourButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+                //todo: what if something is blank? causes error if not float
+
                 // Getting date
                 DatePicker gas_date = (DatePicker) findViewById(R.id.gas_date_field);
                 int day = gas_date.getDayOfMonth();
@@ -48,25 +52,40 @@ public class EnterGasActivity extends AppCompatActivity {
 
 
                 Log.d(TAG, "clicked on add! cost:" + gas_cost + ", gallons: " + gas_gallons + "odo: " + gas_odometer);
-                AlertDialog.Builder alertdlg = new AlertDialog.Builder(v.getContext());
-                alertdlg.setMessage("are you sure?");
-                alertdlg.setPositiveButton("Looks Good", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.d(TAG, "yes");
-                    }
-                });
-                alertdlg.setNegativeButton("Let me change that", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.d(TAG, "no");
-                    }
-                });
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
+
+                // set title
+                alertDialogBuilder.setTitle("Enter this gas data?");
+
+                // set dialog message
+                alertDialogBuilder
+                    //todo: show confirmation info here
+                    .setMessage("Confirm these numbers:")
+                    .setCancelable(false)
+                    .setPositiveButton("Looks good!",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                            //todo: before exit save data... how do you save data?
+                            EnterGasActivity.this.finish();
+                        }
+                    })
+                    .setNegativeButton("Nope, let me fix this.", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
             }
         });
     }
+
 
 
     @Override
@@ -91,3 +110,5 @@ public class EnterGasActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+
+
