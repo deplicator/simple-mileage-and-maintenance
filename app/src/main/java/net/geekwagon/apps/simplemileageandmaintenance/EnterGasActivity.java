@@ -3,6 +3,7 @@ package net.geekwagon.apps.simplemileageandmaintenance;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class EnterGasActivity extends AppCompatActivity {
     private static final String TAG = EnterGasActivity.class.getSimpleName();
@@ -23,65 +25,86 @@ public class EnterGasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entergas);
 
-        Button yourButton = (Button) findViewById(R.id.gas_ok_btn);
+        Button addGasButton = (Button) findViewById(R.id.gas_ok_btn);
 
 
 
-        yourButton.setOnClickListener(new View.OnClickListener() {
+        addGasButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                //todo: what if something is blank? causes error if not float
-
-                // Getting date
+                // Getting date - can't not have it
                 DatePicker gas_date = (DatePicker) findViewById(R.id.gas_date_field);
                 int day = gas_date.getDayOfMonth();
                 int month = gas_date.getMonth() + 1;
                 int year = gas_date.getYear();
 
-                // Gas cost
-                EditText gas_cost_field = (EditText) findViewById(R.id.gas_cost_field) ;
-                float gas_cost = Float.parseFloat(gas_cost_field.getText().toString());
-
-                // Gas gallons
+                // Gas gallons - required
                 EditText gas_gallons_field = (EditText) findViewById(R.id.gas_gallons_field) ;
-                float gas_gallons = Float.parseFloat(gas_gallons_field.getText().toString());
+                String gas_gallons_raw = gas_gallons_field.getText().toString();
+                float gas_gallons_number = (float)0.0;
+                if(gas_gallons_raw.length() > 0) {
+                    gas_gallons_number = Float.parseFloat(gas_gallons_raw);
+                }
 
-                // Gas odometer
+                // Gas odometer - required
                 EditText gas_odometer_field = (EditText) findViewById(R.id.gas_odometer_field) ;
-                float gas_odometer = Float.parseFloat(gas_odometer_field.getText().toString());
+                String gas_odometer_raw = gas_odometer_field.getText().toString();
+                float gas_odometer_number = (float)0.0;
+                if(gas_odometer_raw.length() > 0) {
+                    gas_odometer_number = Float.parseFloat(gas_odometer_raw);
+                }
 
+                // Gas cost - optional
+                EditText gas_cost_field = (EditText) findViewById(R.id.gas_cost_field);
+                String gas_cost_raw = "optional";
+                if(gas_cost_field.getText().toString().length() != 0) {
+                    gas_cost_raw = gas_cost_field.getText().toString();
+                }
+                float gas_cost_number = (float)0.0;
+                if(!gas_cost_raw.equals("optional")) {
+                    gas_cost_number = Float.parseFloat(gas_cost_raw);
+                }
 
-                Log.d(TAG, "clicked on add! cost:" + gas_cost + ", gallons: " + gas_gallons + "odo: " + gas_odometer);
+                if(gas_gallons_number == 0.0) {
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, "Gallons purchased is required.", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else if(gas_odometer_number == 0.0) {
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, "Odometer reading is required.", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    if(gas_cost_number == 0.0) {
+                        Context context = getApplicationContext();
+                        Toast toast = Toast.makeText(context, "Cost is not required, but nice to have.", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
 
+                    // Alert to confirm data being entered.
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
+                    alertDialogBuilder.setTitle("Enter this data?");
+                    alertDialogBuilder
+                        .setMessage(
+                            "Confirm these numbers:\n" +
+                            "    Odometer: " + gas_odometer_raw + "\n" +
+                            "    Gallons: " + gas_gallons_raw + "\n" +
+                            "    Cost/Gallon: " + gas_cost_raw)
+                        .setCancelable(false)
+                        .setPositiveButton("Looks good!",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    //todo: before exit save data... how do you save data?
+                                    EnterGasActivity.this.finish();
+                                }
+                        })
+                        .setNegativeButton("Nope, let me fix this.", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
 
-
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
-
-                // set title
-                alertDialogBuilder.setTitle("Enter this gas data?");
-
-                // set dialog message
-                alertDialogBuilder
-                    //todo: show confirmation info here
-                    .setMessage("Confirm these numbers:")
-                    .setCancelable(false)
-                    .setPositiveButton("Looks good!",new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,int id) {
-                            //todo: before exit save data... how do you save data?
-                            EnterGasActivity.this.finish();
-                        }
-                    })
-                    .setNegativeButton("Nope, let me fix this.", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-
-                // create alert dialog
-                AlertDialog alertDialog = alertDialogBuilder.create();
-
-                // show it
-                alertDialog.show();
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                }
             }
         });
     }
