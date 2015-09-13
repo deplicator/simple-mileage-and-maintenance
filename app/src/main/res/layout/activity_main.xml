@@ -9,20 +9,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/to_screen_gas"
-        android:id="@+id/gas_enterinfo_btn"
+        android:id="@+id/enterinfo_gas_btn"
         android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/bt_to_screen_maint"
-        android:layout_alignStart="@+id/bt_to_screen_maint"
+        android:layout_alignLeft="@+id/enterinfo_maint_btn"
+        android:layout_alignStart="@+id/enterinfo_maint_btn"
         android:layout_marginTop="60dp"
-        android:layout_alignRight="@+id/bt_to_screen_maint"
-        android:layout_alignEnd="@+id/bt_to_screen_maint" />
+        android:layout_alignRight="@+id/enterinfo_maint_btn"
+        android:layout_alignEnd="@+id/enterinfo_maint_btn" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/to_screen_maint"
-        android:id="@+id/bt_to_screen_maint"
-        android:layout_below="@+id/gas_enterinfo_btn"
+        android:id="@+id/enterinfo_maint_btn"
+        android:layout_below="@+id/enterinfo_gas_btn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp" />
 
@@ -30,12 +30,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/to_screen_repair"
-        android:id="@+id/bt_to_screen_repair"
+        android:id="@+id/enterinfo_repair_btn"
         android:layout_marginTop="30dp"
-        android:layout_below="@+id/bt_to_screen_maint"
-        android:layout_alignLeft="@+id/bt_to_screen_maint"
-        android:layout_alignStart="@+id/bt_to_screen_maint"
-        android:layout_alignRight="@+id/bt_to_screen_maint"
-        android:layout_alignEnd="@+id/bt_to_screen_maint" />
+        android:layout_below="@+id/enterinfo_maint_btn"
+        android:layout_alignLeft="@+id/enterinfo_maint_btn"
+        android:layout_alignStart="@+id/enterinfo_maint_btn"
+        android:layout_alignRight="@+id/enterinfo_maint_btn"
+        android:layout_alignEnd="@+id/enterinfo_maint_btn" />
 
 </RelativeLayout>

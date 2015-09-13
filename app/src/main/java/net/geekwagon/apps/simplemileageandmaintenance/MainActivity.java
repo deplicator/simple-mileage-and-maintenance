@@ -1,12 +1,24 @@
 package net.geekwagon.apps.simplemileageandmaintenance;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.view.View;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,11 +27,39 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button yourButton = (Button) findViewById(R.id.gas_enterinfo_btn);
-
-        yourButton.setOnClickListener(new View.OnClickListener() {
+        Button enterinfo_gas_btn = (Button) findViewById(R.id.enterinfo_gas_btn);
+        enterinfo_gas_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), EnterGasActivity.class));
+            }
+        });
+
+        Button enterinfo_maint_btn = (Button) findViewById(R.id.enterinfo_maint_btn);
+        enterinfo_maint_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                StringBuilder builder = new StringBuilder();
+
+                try {
+                    FileReader fileReader = new FileReader(new File(Environment.getExternalStorageDirectory().toString() + "/gas_data.txt"));
+                    BufferedReader reader = new BufferedReader(fileReader);
+                    String data = null;
+
+                    while ((data = reader.readLine()) != null) {
+                        builder.append(data);
+                    }
+
+                    //System.out.println(builder.toString());
+
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+
+                Context context = getApplicationContext();
+                Toast toast = Toast.makeText(context, "Data from file: " + builder.toString(), Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
     }

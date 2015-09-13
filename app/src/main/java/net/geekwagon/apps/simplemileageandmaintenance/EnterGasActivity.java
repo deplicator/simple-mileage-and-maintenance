@@ -1,10 +1,13 @@
 package net.geekwagon.apps.simplemileageandmaintenance;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +18,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class EnterGasActivity extends AppCompatActivity {
     private static final String TAG = EnterGasActivity.class.getSimpleName();
@@ -34,13 +43,13 @@ public class EnterGasActivity extends AppCompatActivity {
 
                 // Getting date - can't not have it
                 DatePicker gas_date = (DatePicker) findViewById(R.id.gas_date_field);
-                int day = gas_date.getDayOfMonth();
-                int month = gas_date.getMonth() + 1;
-                int year = gas_date.getYear();
+                final int gas_date_day = gas_date.getDayOfMonth();
+                final int gas_date_month = gas_date.getMonth() + 1;
+                final int gas_date_year = gas_date.getYear();
 
                 // Gas gallons - required
                 EditText gas_gallons_field = (EditText) findViewById(R.id.gas_gallons_field) ;
-                String gas_gallons_raw = gas_gallons_field.getText().toString();
+                final String gas_gallons_raw = gas_gallons_field.getText().toString();
                 float gas_gallons_number = (float)0.0;
                 if(gas_gallons_raw.length() > 0) {
                     gas_gallons_number = Float.parseFloat(gas_gallons_raw);
@@ -48,7 +57,7 @@ public class EnterGasActivity extends AppCompatActivity {
 
                 // Gas odometer - required
                 EditText gas_odometer_field = (EditText) findViewById(R.id.gas_odometer_field) ;
-                String gas_odometer_raw = gas_odometer_field.getText().toString();
+                final String gas_odometer_raw = gas_odometer_field.getText().toString();
                 float gas_odometer_number = (float)0.0;
                 if(gas_odometer_raw.length() > 0) {
                     gas_odometer_number = Float.parseFloat(gas_odometer_raw);
@@ -83,16 +92,34 @@ public class EnterGasActivity extends AppCompatActivity {
                     // Alert to confirm data being entered.
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
                     alertDialogBuilder.setTitle("Enter this data?");
+                    final String finalGas_cost_raw = gas_cost_raw;
                     alertDialogBuilder
                         .setMessage(
-                            "Confirm these numbers:\n" +
+                            "Confirm this entry:\n" +
+                            "    When: " + gas_date_year + " - " + gas_date_month + "-" + gas_date_day + "\n" +
                             "    Odometer: " + gas_odometer_raw + "\n" +
                             "    Gallons: " + gas_gallons_raw + "\n" +
                             "    Cost/Gallon: " + gas_cost_raw)
                         .setCancelable(false)
                         .setPositiveButton("Looks good!",new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,int id) {
+
                                     //todo: before exit save data... how do you save data?
+                                    String string = "Confirm this entry:\n" +
+                                            "    When: " + gas_date_year + " - " + gas_date_month + "-" + gas_date_day + "\n" +
+                                            "    Odometer: " + gas_odometer_raw + "\n" +
+                                            "    Gallons: " + gas_gallons_raw + "\n" +
+                                            "    Cost/Gallon: " + finalGas_cost_raw;
+
+                                    FileWriter fw;
+                                    try {
+                                        fw = new FileWriter(new File(Environment.getExternalStorageDirectory().toString() + "/gas_data.txt"), true);
+                                        fw.write(string);
+                                        fw.flush();
+                                        fw.close();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                     EnterGasActivity.this.finish();
                                 }
                         })
