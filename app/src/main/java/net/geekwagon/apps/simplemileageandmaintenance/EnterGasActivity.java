@@ -24,25 +24,45 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class EnterGasActivity extends AppCompatActivity {
     private static final String TAG = EnterGasActivity.class.getSimpleName();
 
+    /**
+     * @param datePicker
+     * @return a java.util.Date
+     */
+    public static java.util.Date getDateFromDatePicket(DatePicker datePicker){
+        int day = datePicker.getDayOfMonth();
+        int month = datePicker.getMonth();
+        int year =  datePicker.getYear();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+        return calendar.getTime();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entergas);
 
         Button addGasButton = (Button) findViewById(R.id.gas_ok_btn);
 
-
-
         addGasButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+                final Date rightNow = new Date();
+
                 // Getting date - can't not have it
-                DatePicker gas_date = (DatePicker) findViewById(R.id.gas_date_field);
+                final DatePicker gas_date = (DatePicker) findViewById(R.id.gas_date_field);
+                final Date gas_entry_date = getDateFromDatePicket(gas_date);
                 final int gas_date_day = gas_date.getDayOfMonth();
                 final int gas_date_month = gas_date.getMonth() + 1;
                 final int gas_date_year = gas_date.getYear();
@@ -94,22 +114,19 @@ public class EnterGasActivity extends AppCompatActivity {
                     alertDialogBuilder.setTitle("Enter this data?");
                     final String finalGas_cost_raw = gas_cost_raw;
                     alertDialogBuilder
-                        .setMessage(
-                            "Confirm this entry:\n" +
-                            "    When: " + gas_date_year + " - " + gas_date_month + "-" + gas_date_day + "\n" +
-                            "    Odometer: " + gas_odometer_raw + "\n" +
-                            "    Gallons: " + gas_gallons_raw + "\n" +
-                            "    Cost/Gallon: " + gas_cost_raw)
-                        .setCancelable(false)
-                        .setPositiveButton("Looks good!",new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,int id) {
-
-                                    //todo: before exit save data... how do you save data?
-                                    String string = "Confirm this entry:\n" +
+                            .setMessage(
+                                    "Confirm this entry:\n" +
                                             "    When: " + gas_date_year + " - " + gas_date_month + "-" + gas_date_day + "\n" +
                                             "    Odometer: " + gas_odometer_raw + "\n" +
                                             "    Gallons: " + gas_gallons_raw + "\n" +
-                                            "    Cost/Gallon: " + finalGas_cost_raw;
+                                            "    Cost/Gallon: " + gas_cost_raw)
+                            .setCancelable(false)
+                            .setPositiveButton("Looks good!", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                    //todo: before exit save data... how do you save data?
+                                    String string = rightNow + ", " + gas_entry_date;
+                                    final String s = ", " + gas_odometer_raw + ", " + gas_gallons_raw + ", " + finalGas_cost_raw;
 
                                     FileWriter fw;
                                     try {
@@ -122,12 +139,12 @@ public class EnterGasActivity extends AppCompatActivity {
                                     }
                                     EnterGasActivity.this.finish();
                                 }
-                        })
-                        .setNegativeButton("Nope, let me fix this.", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                            })
+                            .setNegativeButton("Nope, let me fix this.", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
 
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
