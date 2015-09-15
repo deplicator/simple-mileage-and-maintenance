@@ -1,12 +1,8 @@
 package net.geekwagon.apps.simplemileageandmaintenance;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,11 +15,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -56,11 +57,13 @@ public class EnterGasActivity extends AppCompatActivity {
         Button addGasButton = (Button) findViewById(R.id.gas_ok_btn);
 
         addGasButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+            public void onClick(final View v) {
 
+                // Date and time of entry
                 final Date rightNow = new Date();
 
                 // Getting date - can't not have it
+                // (only significantly different from now time if entering in data later)
                 final DatePicker gas_date = (DatePicker) findViewById(R.id.gas_date_field);
                 final Date gas_entry_date = getDateFromDatePicket(gas_date);
                 final int gas_date_day = gas_date.getDayOfMonth();
@@ -98,22 +101,23 @@ public class EnterGasActivity extends AppCompatActivity {
                     Context context = getApplicationContext();
                     Toast toast = Toast.makeText(context, "Gallons purchased is required.", Toast.LENGTH_SHORT);
                     toast.show();
-                } else if(gas_odometer_number == 0.0) {
-                    Context context = getApplicationContext();
-                    Toast toast = Toast.makeText(context, "Odometer reading is required.", Toast.LENGTH_SHORT);
-                    toast.show();
                 } else {
-                    if(gas_cost_number == 0.0) {
+                    if (gas_odometer_number == 0.0) {
                         Context context = getApplicationContext();
-                        Toast toast = Toast.makeText(context, "Cost is not required, but nice to have.", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(context, "Odometer reading is required.", Toast.LENGTH_SHORT);
                         toast.show();
-                    }
+                    } else {
+                        if (gas_cost_number == 0.0) {
+                            Context context = getApplicationContext();
+                            Toast toast = Toast.makeText(context, "Cost is not required, but nice to have.", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
 
-                    // Alert to confirm data being entered.
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
-                    alertDialogBuilder.setTitle("Enter this data?");
-                    final String finalGas_cost_raw = gas_cost_raw;
-                    alertDialogBuilder
+                        // Alert to confirm data being entered.
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
+                        alertDialogBuilder.setTitle("Enter this data?");
+                        final String finalGas_cost_raw = gas_cost_raw;
+                        alertDialogBuilder
                             .setMessage(
                                     "Confirm this entry:\n" +
                                             "    When: " + gas_date_year + " - " + gas_date_month + "-" + gas_date_day + "\n" +
@@ -124,30 +128,60 @@ public class EnterGasActivity extends AppCompatActivity {
                             .setPositiveButton("Looks good!", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
 
-                                    //todo: before exit save data... how do you save data?
-                                    String string = rightNow + ", " + gas_entry_date;
-                                    final String s = ", " + gas_odometer_raw + ", " + gas_gallons_raw + ", " + finalGas_cost_raw;
+                                    // The place we save gas data.
+                                    File direct = new File(Environment.getExternalStorageDirectory() + "/smm/");
+                                    File gas_file = new File(Environment.getExternalStorageDirectory().toString() + "/smm/gas_data.txt");
+                                    if(!direct.exists()) {
+                                        direct.mkdir();
+                                    }
+
+                                    if (!gas_file.exists()) {
+                                        try {
+                                            gas_file.createNewFile();
+                                            FileOutputStream f = new FileOutputStream(gas_file);
+                                            InputStream is = getResources().openRawResource(R.raw.gas_data);
+                                            byte buf[] = new byte[1024];
+                                            int len;
+                                            try {
+                                                while ((len = is.read(buf)) != -1) {
+                                                    f.write(buf, 0, len);
+                                                }
+                                                f.close();
+                                                is.close();
+                                            } catch (IOException e) {
+
+                                            }
+
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    Log.d("TAG", gas_file.getPath());
+
+                                    String gas_entry = rightNow + ", " + gas_entry_date + ", " + gas_odometer_raw + ", " + gas_gallons_raw + ", " + finalGas_cost_raw + "\n";
 
                                     FileWriter fw;
                                     try {
-                                        fw = new FileWriter(new File(Environment.getExternalStorageDirectory().toString() + "/gas_data.txt"), true);
-                                        fw.write(string);
+                                        fw = new FileWriter(gas_file, true);
+                                        fw.write(gas_entry);
                                         fw.flush();
                                         fw.close();
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
+
                                     EnterGasActivity.this.finish();
                                 }
-                            })
-                            .setNegativeButton("Nope, let me fix this.", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
+                            }).setNegativeButton("Nope, let me fix this.", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
 
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+                    }
                 }
             }
         });
