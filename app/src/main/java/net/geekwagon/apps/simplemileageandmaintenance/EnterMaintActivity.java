@@ -28,7 +28,7 @@ public class EnterMaintActivity extends AppCompatActivity {
     private static final String TAG = EnterGasActivity.class.getSimpleName();
 
     /**
-     * @param datePicker
+     * @param datePicker a data picker elements
      * @return a java.util.Date
      */
     public static java.util.Date getDateFromDatePicket(DatePicker datePicker){
@@ -47,7 +47,7 @@ public class EnterMaintActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_entergas);
+        setContentView(R.layout.activity_entermaint);
 
         // Setup elements.
         maint_date = (DatePicker) findViewById(R.id.maint_date_field);
@@ -126,7 +126,7 @@ public class EnterMaintActivity extends AppCompatActivity {
                                             f.close();
                                             is.close();
                                         } catch (IOException e) {
-
+                                            e.printStackTrace();
                                         }
 
                                     } catch (IOException e) {
