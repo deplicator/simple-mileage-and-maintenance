@@ -45,18 +45,22 @@ public class EnterGasActivity extends AppCompatActivity {
         return calendar.getTime();
     }
 
+    Button gas_ok_btn;
+    DatePicker gas_date;
+    EditText gas_gallons_field;
+    EditText gas_odometer_field;
+    EditText gas_cost_field;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entergas);
 
-        Button addGasButton = (Button) findViewById(R.id.gas_ok_btn);
+        // Setup elements.
+        gas_ok_btn = (Button) findViewById(R.id.gas_ok_btn);
 
-        addGasButton.setOnClickListener(new View.OnClickListener() {
+        // Add listeners
+        gas_ok_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(final View v) {
 
                 // Date and time of entry
@@ -64,14 +68,14 @@ public class EnterGasActivity extends AppCompatActivity {
 
                 // Getting date - can't not have it
                 // (only significantly different from now time if entering in data later)
-                final DatePicker gas_date = (DatePicker) findViewById(R.id.gas_date_field);
+                gas_date = (DatePicker) findViewById(R.id.gas_date_field);
                 final Date gas_entry_date = getDateFromDatePicket(gas_date);
                 final int gas_date_day = gas_date.getDayOfMonth();
                 final int gas_date_month = gas_date.getMonth() + 1;
                 final int gas_date_year = gas_date.getYear();
 
                 // Gas gallons - required
-                EditText gas_gallons_field = (EditText) findViewById(R.id.gas_gallons_field) ;
+                gas_gallons_field = (EditText) findViewById(R.id.gas_gallons_field) ;
                 final String gas_gallons_raw = gas_gallons_field.getText().toString();
                 float gas_gallons_number = (float)0.0;
                 if(gas_gallons_raw.length() > 0) {
@@ -79,7 +83,7 @@ public class EnterGasActivity extends AppCompatActivity {
                 }
 
                 // Gas odometer - required
-                EditText gas_odometer_field = (EditText) findViewById(R.id.gas_odometer_field) ;
+                gas_odometer_field = (EditText) findViewById(R.id.gas_odometer_field);
                 final String gas_odometer_raw = gas_odometer_field.getText().toString();
                 float gas_odometer_number = (float)0.0;
                 if(gas_odometer_raw.length() > 0) {
@@ -87,7 +91,7 @@ public class EnterGasActivity extends AppCompatActivity {
                 }
 
                 // Gas cost - optional
-                EditText gas_cost_field = (EditText) findViewById(R.id.gas_cost_field);
+                gas_cost_field = (EditText) findViewById(R.id.gas_cost_field);
                 String gas_cost_raw = "optional";
                 if(gas_cost_field.getText().toString().length() != 0) {
                     gas_cost_raw = gas_cost_field.getText().toString();

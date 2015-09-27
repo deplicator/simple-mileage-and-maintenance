@@ -20,7 +20,11 @@
         </activity>
         <activity
             android:name=".EnterGasActivity"
-            android:label="@string/title_activity_gotgas" >
+            android:label="@string/title_activity_enter_gas" >
+        </activity>
+        <activity
+            android:name=".EnterMaintActivity"
+            android:label="@string/title_activity_enter_maint" >
         </activity>
     </application>
 

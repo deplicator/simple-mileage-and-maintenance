@@ -5,7 +5,6 @@
     <string name="to_screen_gas">Got Gas</string>
     <string name="to_screen_maint">Did Maintenance</string>
     <string name="to_screen_repair">Repair</string>
-    <string name="title_activity_gotgas">Enter Gas Purchase Information</string>
-
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_enter_gas">Enter Gas Purchase Information</string>
+    <string name="title_activity_enter_maint">Enter Maintenance Information</string>
 </resources>

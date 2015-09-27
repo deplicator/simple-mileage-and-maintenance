@@ -22,49 +22,35 @@ import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
+    Button enterinfo_gas_btn;
+    Button enterinfo_maint_btn;
+    Button enterinfo_repair_btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button enterinfo_gas_btn = (Button) findViewById(R.id.enterinfo_gas_btn);
+        // Set up elements.
+        enterinfo_gas_btn = (Button) findViewById(R.id.enterinfo_gas_btn);
+        enterinfo_maint_btn = (Button) findViewById(R.id.enterinfo_maint_btn);
+        enterinfo_repair_btn = (Button) findViewById(R.id.enterinfo_repair_btn);
+
+        // Add listeners.
         enterinfo_gas_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), EnterGasActivity.class));
             }
         });
 
-        Button enterinfo_maint_btn = (Button) findViewById(R.id.enterinfo_maint_btn);
         enterinfo_maint_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
-                StringBuilder builder = new StringBuilder();
-
-                try {
-                    FileReader fileReader = new FileReader(new File(Environment.getExternalStorageDirectory().toString() + "/gas_data.txt"));
-                    BufferedReader reader = new BufferedReader(fileReader);
-                    String data = null;
-
-                    while ((data = reader.readLine()) != null) {
-                        builder.append(data);
-                    }
-
-                    //System.out.println(builder.toString());
-
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-
-                Context context = getApplicationContext();
-                Toast toast = Toast.makeText(context, "Data from file: " + builder.toString(), Toast.LENGTH_SHORT);
-                toast.show();
+                startActivity(new Intent(view.getContext(), EnterMaintActivity.class));
             }
         });
 
 
-        Button enterinfo_repair_btn = (Button) findViewById(R.id.enterinfo_repair_btn);
+
         enterinfo_repair_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
