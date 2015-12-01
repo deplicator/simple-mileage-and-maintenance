@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Environment;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class EnterGasActivity extends Activity {
+public class EnterGasActivity extends ActionBarActivity {
     private static final String TAG = EnterGasActivity.class.getSimpleName();
 
     /**

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,15 +16,20 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Date;
 
-public class EnterMaintActivity extends Activity {
+public class EnterMaintActivity extends ActionBarActivity {
 
     private static final String TAG = EnterGasActivity.class.getSimpleName();
 
@@ -70,6 +76,33 @@ public class EnterMaintActivity extends Activity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String maint_description_string = maint_items_dropdown.getSelectedItem().toString();
                 // get last interval for the line that matches this string and put that value in maint_interval_field.
+
+                FileInputStream is;
+                BufferedReader reader;
+                final File file = new File(Environment.getExternalStorageDirectory().toString() + "/smm/maint_data.txt");
+                maint_interval_field.setText("0");
+                if (file.exists()) {
+                    try {
+                        is = new FileInputStream(file);
+                        reader = new BufferedReader(new InputStreamReader(is));
+                        String line = reader.readLine();
+                        while (line != null) {
+                            Log.d("TAG", line);
+                            String[] separated = line.split(",");
+                            Log.d("TAG", separated[3].trim());
+                            Log.d("TAG", maint_description_string.trim());
+                            if (separated[3].trim().equals(maint_description_string.trim())) {
+                                maint_interval_field.setText(separated[4].trim());
+                            }
+                            line = reader.readLine();
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
 
                 Context context = getApplicationContext();
                 Toast toast;
@@ -147,8 +180,9 @@ public class EnterMaintActivity extends Activity {
                         .setMessage(
                             "Confirm this entry:\n" +
                                 "    When: " + maint_date_year + "-" + maint_date_month + "-" + maint_date_day + "\n" +
+                                "    What: " + maint_description_string + "\n" +
                                 "    Odometer: " + maint_odometer_raw + "\n" +
-                                "    What: " + maint_description_string)
+                                "    Next Occurrence in: " + maint_interval_raw + " miles")
                         .setCancelable(false)
                         .setPositiveButton("Looks good!", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -184,7 +218,7 @@ public class EnterMaintActivity extends Activity {
 
                                 Log.d("TAG", maint_file.getPath());
 
-                                String gas_entry = rightNow + ", " + maint_entry_date + ", " + maint_odometer_raw + ", " + ", " + "\n";
+                                String gas_entry = rightNow + ", " + maint_entry_date + ", " + maint_odometer_raw + ", " + maint_description_string + ", " + maint_interval_raw + "\n";
 
                                 FileWriter fw;
                                 try {

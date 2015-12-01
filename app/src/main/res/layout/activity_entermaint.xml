@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:id="@+id/maint_date_field"
-            android:layout_weight="0.4" />
+            android:layout_weight="0.4"
+            android:datePickerMode="spinner"/>
 
         <LinearLayout
             android:orientation="horizontal"
