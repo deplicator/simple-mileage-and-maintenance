@@ -21,27 +21,27 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight=".2">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:text="Cost per Gallon:"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:text="Maintenance:"
                 android:id="@+id/textView3"
                 android:textSize="20sp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight=".34" />
+                android:layout_gravity="center"
+                android:layout_centerInParent="true"
+                />
 
-            <EditText
+            <Spinner
                 android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:inputType="numberDecimal"
-                android:ems="10"
-                android:id="@+id/gas_cost_field"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0.66" />
+                android:layout_height="match_parent"
+                android:id="@+id/maint_items_spinner"
+                android:layout_weight="0.37"
+                android:spinnerMode="dropdown"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -53,7 +53,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:text="Gallons:"
+                android:text="Next Interval:"
                 android:id="@+id/textView2"
                 android:textSize="20sp"
                 android:layout_gravity="center_vertical"
@@ -64,7 +64,7 @@
                 android:layout_height="50dp"
                 android:inputType="numberDecimal"
                 android:ems="10"
-                android:id="@+id/gas_gallons_field"
+                android:id="@+id/maint_interval_field"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.66" />
         </LinearLayout>

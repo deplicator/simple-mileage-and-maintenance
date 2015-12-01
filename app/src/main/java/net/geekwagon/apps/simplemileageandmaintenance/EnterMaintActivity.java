@@ -1,5 +1,6 @@
 package net.geekwagon.apps.simplemileageandmaintenance;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,14 +8,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -41,7 +42,9 @@ public class EnterMaintActivity extends AppCompatActivity {
     }
 
     DatePicker maint_date;
+    Spinner maint_items_dropdown;
     EditText maint_odometer_field;
+    EditText maint_interval_field;
     Button maint_ok_btn;
 
     @Override
@@ -51,10 +54,38 @@ public class EnterMaintActivity extends AppCompatActivity {
 
         // Setup elements.
         maint_date = (DatePicker) findViewById(R.id.maint_date_field);
+        maint_items_dropdown = (Spinner) findViewById(R.id.maint_items_spinner);
         maint_odometer_field = (EditText) findViewById(R.id.maint_odometer_field);
+        maint_interval_field = (EditText) findViewById(R.id.maint_interval_field);
         maint_ok_btn = (Button) findViewById(R.id.maint_ok_btn);
 
-        // Add listeners
+        // Populate maintenance items dropdown.
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.maint_items, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        maint_items_dropdown.setAdapter(adapter);
+
+        // Maintenance drop down listener.
+        int current_maint_selection = maint_items_dropdown.getSelectedItemPosition();
+        maint_items_dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String maint_description_string = maint_items_dropdown.getSelectedItem().toString();
+                // get last interval for the line that matches this string and put that value in maint_interval_field.
+
+                Context context = getApplicationContext();
+                Toast toast;
+                toast = Toast.makeText(context, maint_description_string, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
+        // Add button listener
         maint_ok_btn.setOnClickListener(new View.OnClickListener() {
 
             // date variables
@@ -63,9 +94,16 @@ public class EnterMaintActivity extends AppCompatActivity {
             int maint_date_month;
             int maint_date_year;
 
-            // odometer variables
+            // maint description drop down
+            String maint_description_string = maint_items_dropdown.getSelectedItem().toString();
+
+            // interval variables
             String maint_odometer_raw;
             float maint_odometer_number = 0f;
+
+            // odometer variables
+            String maint_interval_raw;
+            float maint_interval_number = 0f;
 
             public void onClick(final View v) {
 
@@ -81,14 +119,25 @@ public class EnterMaintActivity extends AppCompatActivity {
 
                 // Maintenance odometer reading - required
                 maint_odometer_raw = maint_odometer_field.getText().toString();
-                if(maint_odometer_raw.length() > 0) {
+                if (maint_odometer_raw.length() > 0) {
                     maint_odometer_number = Float.parseFloat(maint_odometer_raw);
                 }
 
+                // Maintenance next interval - required if not already set.
+                maint_interval_raw = maint_interval_field.getText().toString();
+                if (maint_interval_raw.length() > 0) {
+                    maint_interval_number = Float.parseFloat(maint_interval_raw);
+                }
+
                 // Validating
+                Context context = getApplicationContext();
+                Toast toast;
                 if (maint_odometer_number == 0.0) {
-                    Context context = getApplicationContext();
-                    Toast toast = Toast.makeText(context, "Odometer reading is required.", Toast.LENGTH_SHORT);
+                    toast = Toast.makeText(context, "Odometer reading is required.", Toast.LENGTH_SHORT);
+                    toast.show();
+
+                } else if (maint_interval_number == 0.0) {
+                    toast = Toast.makeText(context, "Interval is required.", Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
 
@@ -98,9 +147,9 @@ public class EnterMaintActivity extends AppCompatActivity {
                     alertDialogBuilder
                         .setMessage(
                             "Confirm this entry:\n" +
-                                "    When: " + maint_date_year + " - " + maint_date_month + "-" + maint_date_day + "\n" +
+                                "    When: " + maint_date_year + "-" + maint_date_month + "-" + maint_date_day + "\n" +
                                 "    Odometer: " + maint_odometer_raw + "\n" +
-                                "    What: ")
+                                "    What: " + maint_description_string)
                         .setCancelable(false)
                         .setPositiveButton("Looks good!", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -108,7 +157,7 @@ public class EnterMaintActivity extends AppCompatActivity {
                                 // The place we save gas data.
                                 File direct = new File(Environment.getExternalStorageDirectory() + "/smm/");
                                 File maint_file = new File(Environment.getExternalStorageDirectory().toString() + "/smm/maint_data.txt");
-                                if(!direct.exists()) {
+                                if (!direct.exists()) {
                                     direct.mkdir();
                                 }
 
@@ -166,3 +215,6 @@ public class EnterMaintActivity extends AppCompatActivity {
     }
 
 }
+
+
+

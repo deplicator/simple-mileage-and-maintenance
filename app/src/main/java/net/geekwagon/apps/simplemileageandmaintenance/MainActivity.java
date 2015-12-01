@@ -49,15 +49,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         enterinfo_repair_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
-                String something = getApplicationContext().getFilesDir().toString();
-
-                Toast toast = Toast.makeText(getApplicationContext(), something, Toast.LENGTH_SHORT);
-                toast.show();
+                //startActivity(new Intent(view.getContext(), EnterMaintActivity.class));
             }
         });
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="maint_items">
+        <item>Oil Change</item>
+        <item>Wiper Replace</item>
+        <item>Check Tire Pressure</item>
+        <item>Tire Rotation</item>
+        <item>Tire Balance</item>
+        <item>Wheel Alignment</item>
+        <item>Check or Fill Engine Coolant</item>
+        <item>Air Filter</item>
+    </string-array>
+</resources>
