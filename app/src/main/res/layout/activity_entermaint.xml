@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:id="@+id/maint_date_field"
-            android:layout_alignParentTop="true"
             android:layout_weight="0.4" />
 
         <LinearLayout
@@ -97,7 +96,7 @@
         <Button
             android:layout_width="173dp"
             android:layout_height="wrap_content"
-            android:text="Add"
+            android:text="@string/Add"
             android:id="@+id/maint_ok_btn"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"

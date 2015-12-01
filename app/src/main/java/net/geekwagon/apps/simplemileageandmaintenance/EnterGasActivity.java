@@ -1,10 +1,10 @@
 package net.geekwagon.apps.simplemileageandmaintenance;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,22 +14,16 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Date;
 
 
-public class EnterGasActivity extends AppCompatActivity {
+public class EnterGasActivity extends Activity {
     private static final String TAG = EnterGasActivity.class.getSimpleName();
 
     /**
@@ -121,22 +115,27 @@ public class EnterGasActivity extends AppCompatActivity {
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
                         alertDialogBuilder.setTitle("Enter this data?");
                         final String finalGas_cost_raw = gas_cost_raw;
-                        alertDialogBuilder
+                        AlertDialog.Builder tag = alertDialogBuilder
                             .setMessage(
-                                    "Confirm this entry:\n" +
-                                            "    When: " + gas_date_year + " - " + gas_date_month + "-" + gas_date_day + "\n" +
-                                            "    Odometer: " + gas_odometer_raw + "\n" +
-                                            "    Gallons: " + gas_gallons_raw + "\n" +
-                                            "    Cost/Gallon: " + gas_cost_raw)
+                                "Confirm this entry:\n" +
+                                    "    When: " + gas_date_year + " - " + gas_date_month + "-" + gas_date_day + "\n" +
+                                    "    Odometer: " + gas_odometer_raw + "\n" +
+                                    "    Gallons: " + gas_gallons_raw + "\n" +
+                                    "    Cost/Gallon: " + gas_cost_raw)
                             .setCancelable(false)
                             .setPositiveButton("Looks good!", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
 
                                     // The place we save gas data.
-                                    File direct = new File(Environment.getExternalStorageDirectory() + "/smm/");
+                                    File direct = new File(Environment.getExternalStorageDirectory().toString() + "/smm");
                                     File gas_file = new File(Environment.getExternalStorageDirectory().toString() + "/smm/gas_data.txt");
-                                    if(!direct.exists()) {
-                                        direct.mkdir();
+
+                                    if (!direct.exists()) {
+                                        boolean success = direct.mkdir();
+                                        if(success)
+                                            Log.d("TAG", "sure");
+                                        else
+                                            Log.d("TAG", "try again");
                                     }
 
                                     if (!gas_file.exists()) {
@@ -178,10 +177,10 @@ public class EnterGasActivity extends AppCompatActivity {
                                     EnterGasActivity.this.finish();
                                 }
                             }).setNegativeButton("Nope, let me fix this.", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
 
                         AlertDialog alertDialog = alertDialogBuilder.create();
                         alertDialog.show();

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,7 +23,7 @@ import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 
-public class EnterMaintActivity extends AppCompatActivity {
+public class EnterMaintActivity extends Activity {
 
     private static final String TAG = EnterGasActivity.class.getSimpleName();
 
