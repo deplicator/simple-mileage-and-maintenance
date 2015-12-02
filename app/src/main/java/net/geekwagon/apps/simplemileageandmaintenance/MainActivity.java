@@ -3,11 +3,17 @@ package net.geekwagon.apps.simplemileageandmaintenance;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.view.View;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -41,6 +47,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        enterinfo_repair_btn.setEnabled(false);
         enterinfo_repair_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 //startActivity(new Intent(view.getContext(), EnterRepairActivity.class));
@@ -52,6 +59,36 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(new Intent(view.getContext(), ViewUpcomingActivity.class));
             }
         });
+
+
+        // Add the place we save maint data if doesn't exist.
+        File direct = new File(Environment.getExternalStorageDirectory() + "/smm/");
+        File maint_file = new File(Environment.getExternalStorageDirectory().toString() + "/smm/maint_data.txt");
+        if (!direct.exists()) {
+            direct.mkdir();
+        }
+
+        if (!maint_file.exists()) {
+            try {
+                maint_file.createNewFile();
+                FileOutputStream f = new FileOutputStream(maint_file);
+                InputStream is = getResources().openRawResource(R.raw.maint_data);
+                byte buf[] = new byte[1024];
+                int len;
+                try {
+                    while ((len = is.read(buf)) != -1) {
+                        f.write(buf, 0, len);
+                    }
+                    f.close();
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
 
     }

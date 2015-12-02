@@ -15,11 +15,16 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -116,6 +121,7 @@ public class EnterGasActivity extends ActionBarActivity {
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
                         alertDialogBuilder.setTitle("Enter this data?");
                         final String finalGas_cost_raw = gas_cost_raw;
+                        final float finalGas_odometer_number = gas_odometer_number;
                         AlertDialog.Builder tag = alertDialogBuilder
                             .setMessage(
                                 "Confirm this entry:\n" +
@@ -161,8 +167,6 @@ public class EnterGasActivity extends ActionBarActivity {
                                         }
                                     }
 
-                                    Log.d("TAG", gas_file.getPath());
-
                                     String gas_entry = rightNow + ", " + gas_entry_date + ", " + gas_odometer_raw + ", " + gas_gallons_raw + ", " + finalGas_cost_raw + "\n";
 
                                     FileWriter fw;
@@ -174,6 +178,38 @@ public class EnterGasActivity extends ActionBarActivity {
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
+
+                                    // check for upcoming maintenance
+                                    FileInputStream is;
+                                    BufferedReader reader;
+                                    final File file = new File(Environment.getExternalStorageDirectory().toString() + "/smm/maint_data.txt");
+                                    if (file.exists()) {
+                                        try {
+                                            is = new FileInputStream(file);
+                                            reader = new BufferedReader(new InputStreamReader(is));
+                                            String line = reader.readLine();
+                                            line = reader.readLine(); // skip first line
+                                            while (line != null) {
+                                                String[] separated = line.split(",");
+                                                float next = Float.parseFloat(separated[5]);
+                                                Log.d("TAG", separated[5]);
+                                                Log.d("TAG", String.valueOf(finalGas_odometer_number));
+                                                if(next < finalGas_odometer_number + 400 && next > finalGas_odometer_number - 1000){
+                                                    Log.d("TAG", "something:" + separated[3]);
+                                                }
+
+
+
+
+                                                line = reader.readLine();
+                                            }
+                                        } catch (FileNotFoundException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
 
                                     EnterGasActivity.this.finish();
                                 }

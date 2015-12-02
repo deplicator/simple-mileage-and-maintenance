@@ -1,1 +1,9 @@
-entry_date,entered_date,odometer,description,interval
+entry_date,entered_date,odometer,description,interval,next
+,,0,Oil Change,3000,0
+,,0,Wiper Replace,8000,0
+,,0,Check Tire Pressure,2000,0
+,,0,Tire Rotation,6000,0
+,,0,Tire Balance,6000,0
+,,0,Wheel Alignment,20000,0
+,,0,Check or Fill Engine Coolant,1000,0
+,,0,Air Filter,3000,0

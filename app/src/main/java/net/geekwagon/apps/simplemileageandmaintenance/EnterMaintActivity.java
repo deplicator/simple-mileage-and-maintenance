@@ -75,8 +75,6 @@ public class EnterMaintActivity extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String maint_description_string = maint_items_dropdown.getSelectedItem().toString();
-                // get last interval for the line that matches this string and put that value in maint_interval_field.
-
                 FileInputStream is;
                 BufferedReader reader;
                 final File file = new File(Environment.getExternalStorageDirectory().toString() + "/smm/maint_data.txt");
@@ -87,10 +85,7 @@ public class EnterMaintActivity extends ActionBarActivity {
                         reader = new BufferedReader(new InputStreamReader(is));
                         String line = reader.readLine();
                         while (line != null) {
-                            Log.d("TAG", line);
                             String[] separated = line.split(",");
-                            Log.d("TAG", separated[3].trim());
-                            Log.d("TAG", maint_description_string.trim());
                             if (separated[3].trim().equals(maint_description_string.trim())) {
                                 maint_interval_field.setText(separated[4].trim());
                             }
@@ -101,13 +96,7 @@ public class EnterMaintActivity extends ActionBarActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 }
-
-                Context context = getApplicationContext();
-                Toast toast;
-                toast = Toast.makeText(context, maint_description_string, Toast.LENGTH_SHORT);
-                toast.show();
             }
 
             @Override
@@ -136,6 +125,8 @@ public class EnterMaintActivity extends ActionBarActivity {
             // odometer variables
             String maint_interval_raw;
             float maint_interval_number = 0f;
+
+            float next;
 
             public void onClick(final View v) {
 
@@ -175,6 +166,11 @@ public class EnterMaintActivity extends ActionBarActivity {
                     toast.show();
                 } else {
 
+                    next = maint_odometer_number + maint_interval_number;
+                    int next_int = (int) next;
+                    final String next_string = Integer.toString(next_int);
+
+
                     // Alert to confirm data being entered.
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
                     alertDialogBuilder.setTitle("Enter this maintenance data?");
@@ -189,7 +185,7 @@ public class EnterMaintActivity extends ActionBarActivity {
                         .setPositiveButton("Looks good!", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                // The place we save gas data.
+                                // The place we save maint data.
                                 File direct = new File(Environment.getExternalStorageDirectory() + "/smm/");
                                 File maint_file = new File(Environment.getExternalStorageDirectory().toString() + "/smm/maint_data.txt");
                                 if (!direct.exists()) {
@@ -218,9 +214,7 @@ public class EnterMaintActivity extends ActionBarActivity {
                                     }
                                 }
 
-                                Log.d("TAG", maint_file.getPath());
-
-                                String gas_entry = rightNow + ", " + maint_entry_date + ", " + maint_odometer_raw + ", " + maint_description_string + ", " + maint_interval_raw + "\n";
+                                String gas_entry = rightNow + ", " + maint_entry_date + ", " + maint_odometer_raw + ", " + maint_description_string + ", " + maint_interval_raw + ", " + next_string + "\n";
 
                                 FileWriter fw;
                                 try {
