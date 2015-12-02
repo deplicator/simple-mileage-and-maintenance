@@ -8,4 +8,5 @@
     <string name="title_activity_enter_gas">Enter Gas Purchase Information</string>
     <string name="title_activity_enter_maint">Enter Maintenance Information</string>
     <string name="Add">Add</string>
+    <string name="title_activity_view_upcoming">Upcoming Scheduled Maintenance</string>
 </resources>

@@ -26,6 +26,10 @@
             android:name=".EnterMaintActivity"
             android:label="@string/title_activity_enter_maint" >
         </activity>
+        <activity
+            android:name=".ViewUpcomingActivity"
+            android:label="@string/title_activity_view_upcoming" >
+        </activity>
     </application>
 
 </manifest>

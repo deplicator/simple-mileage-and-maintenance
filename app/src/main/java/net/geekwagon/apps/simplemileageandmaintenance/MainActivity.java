@@ -15,6 +15,7 @@ public class MainActivity extends ActionBarActivity {
     Button enterinfo_gas_btn;
     Button enterinfo_maint_btn;
     Button enterinfo_repair_btn;
+    Button view_upcoming_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public class MainActivity extends ActionBarActivity {
         enterinfo_gas_btn = (Button) findViewById(R.id.enterinfo_gas_btn);
         enterinfo_maint_btn = (Button) findViewById(R.id.enterinfo_maint_btn);
         enterinfo_repair_btn = (Button) findViewById(R.id.enterinfo_repair_btn);
+        view_upcoming_btn = (Button) findViewById(R.id.view_upcoming_btn);
 
         // Add listeners.
         enterinfo_gas_btn.setOnClickListener(new View.OnClickListener() {
@@ -41,10 +43,15 @@ public class MainActivity extends ActionBarActivity {
 
         enterinfo_repair_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                //startActivity(new Intent(view.getContext(), EnterMaintActivity.class));
+                //startActivity(new Intent(view.getContext(), EnterRepairActivity.class));
             }
         });
 
+        view_upcoming_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), ViewUpcomingActivity.class));
+            }
+        });
 
 
     }

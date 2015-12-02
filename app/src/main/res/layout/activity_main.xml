@@ -38,4 +38,16 @@
         android:layout_alignRight="@+id/enterinfo_maint_btn"
         android:layout_alignEnd="@+id/enterinfo_maint_btn" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Upcoming Maintenance"
+        android:id="@+id/view_upcoming_btn"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/enterinfo_repair_btn"
+        android:layout_alignLeft="@+id/enterinfo_repair_btn"
+        android:layout_alignStart="@+id/enterinfo_repair_btn"
+        android:layout_alignRight="@+id/enterinfo_repair_btn"
+        android:layout_alignEnd="@+id/enterinfo_repair_btn" />
+
 </RelativeLayout>

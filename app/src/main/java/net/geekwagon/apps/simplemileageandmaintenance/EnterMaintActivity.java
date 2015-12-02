@@ -161,6 +161,8 @@ public class EnterMaintActivity extends ActionBarActivity {
                     maint_interval_number = Float.parseFloat(maint_interval_raw);
                 }
 
+                maint_description_string = maint_items_dropdown.getSelectedItem().toString();
+
                 // Validating
                 Context context = getApplicationContext();
                 Toast toast;
