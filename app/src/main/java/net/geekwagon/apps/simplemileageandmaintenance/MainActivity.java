@@ -38,6 +38,7 @@ public class MainActivity extends ActionBarActivity {
     Button view_upcoming_btn;
 
     TextView last_odometer_reading;
+    TextView mpg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class MainActivity extends ActionBarActivity {
 
         // Set up elements.
         last_odometer_reading = (TextView) findViewById(R.id.display_odometer);
+        mpg = (TextView) findViewById(R.id.display_mpg);
         enterinfo_gas_btn = (Button) findViewById(R.id.enterinfo_gas_btn);
         enterinfo_maint_btn = (Button) findViewById(R.id.enterinfo_maint_btn);
         enterinfo_repair_btn = (Button) findViewById(R.id.enterinfo_repair_btn);
@@ -215,12 +217,22 @@ public class MainActivity extends ActionBarActivity {
 
                 // Get the last gas entry
                 float current_odometer = 0.0f;
+                float current_gallons = 0.0f;
+                float miles_since_last_fillup = 0.0f;
+                float latest_mpg = 0.0f;
+
                 while (linegas != null) {
                     String[] separated = linegas.split(",");
                     float next_odometer = Float.parseFloat(separated[2]);
+                    float next_gallons = Float.parseFloat(separated[3]);
+
                     if(next_odometer > current_odometer) {
+                        current_gallons = next_gallons;
+                        miles_since_last_fillup = next_odometer - current_odometer;
                         current_odometer = next_odometer;
+                        latest_mpg = miles_since_last_fillup / current_gallons;
                     }
+
                     linegas = readergas.readLine();
                 }
 
@@ -266,6 +278,7 @@ public class MainActivity extends ActionBarActivity {
                     }
                 }
                 last_odometer_reading.setText("Last Odometer Reading: " + (int) current_odometer);
+                mpg.setText("mpg: " + latest_mpg);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

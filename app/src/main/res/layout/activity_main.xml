@@ -24,12 +24,20 @@
                 android:layout_gravity="right"
                 android:textColorLink="#ff6600"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mpg: 0"
+                android:id="@+id/display_mpg"
+                android:layout_gravity="right"
+                android:textColorLink="#ff6600"/>
+
             <Button
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:text="@string/to_screen_gas"
                 android:id="@+id/enterinfo_gas_btn"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="0dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignRight="@+id/enterinfo_maint_btn"
                 android:layout_alignEnd="@+id/enterinfo_maint_btn"
