@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -238,6 +239,9 @@ public class MainActivity extends ActionBarActivity {
                         description.setText(check[0]);
                         interval = new TextView(this);
                         interval.setText(check[1]);
+
+                        description.setWidth(500);
+
                         row.addView(description);
                         row.addView(interval);
                         pastdue.addView(row);
@@ -253,6 +257,9 @@ public class MainActivity extends ActionBarActivity {
                         description.setText(check[0]);
                         interval = new TextView(this);
                         interval.setText(check[1]);
+
+                        description.setWidth(500);
+
                         row.addView(description);
                         row.addView(interval);
                         soondue.addView(row);

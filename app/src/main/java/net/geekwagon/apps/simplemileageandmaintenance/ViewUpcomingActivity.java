@@ -94,6 +94,7 @@ public class ViewUpcomingActivity extends ActionBarActivity {
                 description.setText(item[0]);
                 interval = new TextView(this);
                 interval.setText(item[1]);
+                description.setWidth(500);
                 row.addView(description);
                 row.addView(interval);
                 ll.addView(row);
