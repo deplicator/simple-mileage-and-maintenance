@@ -17,9 +17,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.ListIterator;
 
 public class ViewUpcomingActivity extends ActionBarActivity {
     private static final String TAG = ViewUpcomingActivity.class.getSimpleName();

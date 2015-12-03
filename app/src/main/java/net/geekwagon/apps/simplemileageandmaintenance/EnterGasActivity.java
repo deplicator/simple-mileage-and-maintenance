@@ -179,38 +179,6 @@ public class EnterGasActivity extends ActionBarActivity {
                                         e.printStackTrace();
                                     }
 
-                                    // check for upcoming maintenance
-                                    FileInputStream is;
-                                    BufferedReader reader;
-                                    final File file = new File(Environment.getExternalStorageDirectory().toString() + "/smm/maint_data.txt");
-                                    if (file.exists()) {
-                                        try {
-                                            is = new FileInputStream(file);
-                                            reader = new BufferedReader(new InputStreamReader(is));
-                                            String line = reader.readLine();
-                                            line = reader.readLine(); // skip first line
-                                            while (line != null) {
-                                                String[] separated = line.split(",");
-                                                float next = Float.parseFloat(separated[5]);
-                                                Log.d("TAG", separated[5]);
-                                                Log.d("TAG", String.valueOf(finalGas_odometer_number));
-                                                if(next < finalGas_odometer_number + 400 && next > finalGas_odometer_number - 1000){
-                                                    Log.d("TAG", "something:" + separated[3]);
-                                                }
-
-
-
-
-                                                line = reader.readLine();
-                                            }
-                                        } catch (FileNotFoundException e) {
-                                            e.printStackTrace();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-
-
                                     EnterGasActivity.this.finish();
                                 }
                             }).setNegativeButton("Nope, let me fix this.", new DialogInterface.OnClickListener() {

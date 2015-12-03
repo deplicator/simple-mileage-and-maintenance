@@ -5,49 +5,109 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/to_screen_gas"
-        android:id="@+id/enterinfo_gas_btn"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/enterinfo_maint_btn"
-        android:layout_alignStart="@+id/enterinfo_maint_btn"
-        android:layout_marginTop="60dp"
-        android:layout_alignRight="@+id/enterinfo_maint_btn"
-        android:layout_alignEnd="@+id/enterinfo_maint_btn" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/to_screen_maint"
-        android:id="@+id/enterinfo_maint_btn"
-        android:layout_below="@+id/enterinfo_gas_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="355dp"
+            android:layout_height="wrap_content"
+            >
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/to_screen_repair"
-        android:id="@+id/enterinfo_repair_btn"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/enterinfo_maint_btn"
-        android:layout_alignLeft="@+id/enterinfo_maint_btn"
-        android:layout_alignStart="@+id/enterinfo_maint_btn"
-        android:layout_alignRight="@+id/enterinfo_maint_btn"
-        android:layout_alignEnd="@+id/enterinfo_maint_btn" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Odometer Reading: 0"
+                android:id="@+id/display_odometer"
+                android:layout_gravity="right"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Upcoming Maintenance"
-        android:id="@+id/view_upcoming_btn"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/enterinfo_repair_btn"
-        android:layout_alignLeft="@+id/enterinfo_repair_btn"
-        android:layout_alignStart="@+id/enterinfo_repair_btn"
-        android:layout_alignRight="@+id/enterinfo_repair_btn"
-        android:layout_alignEnd="@+id/enterinfo_repair_btn" />
+            <Button
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="@string/to_screen_gas"
+                android:id="@+id/enterinfo_gas_btn"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignRight="@+id/enterinfo_maint_btn"
+                android:layout_alignEnd="@+id/enterinfo_maint_btn"
+                android:layout_alignLeft="@+id/enterinfo_maint_btn"
+                android:layout_alignStart="@+id/enterinfo_maint_btn"
+                android:layout_gravity="center_horizontal"/>
+
+            <Button
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="@string/to_screen_maint"
+                android:id="@+id/enterinfo_maint_btn"
+                android:layout_below="@+id/enterinfo_gas_btn"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <Button
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="@string/to_screen_repair"
+                android:id="@+id/enterinfo_repair_btn"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/enterinfo_maint_btn"
+                android:layout_alignLeft="@+id/enterinfo_maint_btn"
+                android:layout_alignStart="@+id/enterinfo_maint_btn"
+                android:layout_alignRight="@+id/enterinfo_maint_btn"
+                android:layout_alignEnd="@+id/enterinfo_maint_btn"
+                android:layout_gravity="center_horizontal"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Past Due Maintenance"
+                android:id="@+id/textView4"/>
+
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/enterinfo_repair_btn"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_above="@+id/view_upcoming_btn"
+                android:layout_weight="0.45"
+                android:orientation="vertical"
+                android:id="@+id/display_past_due">
+            </TableLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Coming Up"
+                android:id="@+id/textView5"/>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.45"
+                android:orientation="vertical"
+                android:id="@+id/display_soon_due">
+            </TableLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View All Upcoming Maintenance"
+                android:id="@+id/view_upcoming_btn"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>
